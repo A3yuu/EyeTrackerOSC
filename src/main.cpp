@@ -2,19 +2,14 @@
 //
 // License: MIT
 
-#include <stdio.h>
 #include <iostream>
 
 #include <openxr/openxr.h>
-#include <openxr/openxr_platform.h>
 
-#include <osc\OscReceivedElements.h>
-#include <osc\OscPacketListener.h>
 #include <osc\OscOutboundPacketStream.h>
 #include <ip\UdpSocket.h>
-#include <ip\IpEndpointName.h>
 
-#define CHK_XR(r,e) if(XR_FAILED(r)) { printf("%s:%d",e,r);}
+#define CHK_XR(r,e) if(XR_FAILED(r)) { std::cout << e << ":" << r << "\n";return -1;}
 const float PI = 3.14159265358979;
 
 //UselessGUI
@@ -37,11 +32,29 @@ XrVector3f euler(XrQuaternionf q) {
 	};
 }
 
-int main()
+int main(int argc, char** argv)
 {
 	std::cout << "Eye Tracker OSC\n(c)A3\nhttps://twitter.com/A3_yuu\n";
 
-	XrApplicationInfo t_ApplicationInfo{
+	//arg
+	const char *ip = "127.0.0.1";
+	int port = 9000;
+	int sleepTime = 33;
+
+	switch (argc > 4 ? 4 : argc) {
+	case 4:
+		sleepTime = atoi(argv[3]);
+	case 3:
+		port = atoi(argv[2]);
+	case 2:
+		ip = argv[1];
+	default:
+		break;
+	}
+
+	//OpenXR
+	//Create instance
+	XrApplicationInfo applicationInfo{
 		"A3 Eye Tracker",
 		1,//app ver
 		"",
@@ -54,27 +67,27 @@ int main()
 	  "XR_FB_face_tracking",
 	  "XR_KHR_D3D11_enable",//UselessGUI
 	};
-
-	XrInstanceCreateInfo t_InstanceCreateInfo = { XR_TYPE_INSTANCE_CREATE_INFO };
-	t_InstanceCreateInfo.next = NULL;
-	t_InstanceCreateInfo.createFlags = 0;
-	t_InstanceCreateInfo.applicationInfo = t_ApplicationInfo;
-	t_InstanceCreateInfo.enabledApiLayerCount = 0;
-	t_InstanceCreateInfo.enabledApiLayerNames = NULL;
-	t_InstanceCreateInfo.enabledExtensionCount = extensionsCount;
-	t_InstanceCreateInfo.enabledExtensionNames = extensions;
+	XrInstanceCreateInfo instanceCreateInfo = { XR_TYPE_INSTANCE_CREATE_INFO };
+	instanceCreateInfo.next = NULL;
+	instanceCreateInfo.createFlags = 0;
+	instanceCreateInfo.applicationInfo = applicationInfo;
+	instanceCreateInfo.enabledApiLayerCount = 0;
+	instanceCreateInfo.enabledApiLayerNames = NULL;
+	instanceCreateInfo.enabledExtensionCount = extensionsCount;
+	instanceCreateInfo.enabledExtensionNames = extensions;
 
 	XrInstance instance;
-	CHK_XR(xrCreateInstance(&t_InstanceCreateInfo, &instance), "xrCreateInstance");
+	CHK_XR(xrCreateInstance(&instanceCreateInfo, &instance), "xrCreateInstance");
 
+	//Get systemId
 	XrSystemGetInfo systemGetInfo = { XR_TYPE_SYSTEM_GET_INFO };
 	systemGetInfo.next = NULL;
 	systemGetInfo.formFactor = XR_FORM_FACTOR_HEAD_MOUNTED_DISPLAY;
 
 	XrSystemId systemId;
-
 	CHK_XR(xrGetSystem(instance, &systemGetInfo, &systemId), "xrGetSystem");
 
+	//Create session
 	XrSessionCreateInfo sessionCreateInfo = { XR_TYPE_SESSION_CREATE_INFO };
 	//UselessGUI
 	std::shared_ptr<Options> options = std::make_shared<Options>();
@@ -89,9 +102,7 @@ int main()
 	sessionCreateInfo.systemId = systemId;
 
 	XrSession session;
-
 	CHK_XR(xrCreateSession(instance, &sessionCreateInfo, &session), "xrCreateSession");
-
 
 	//Eye
 	PFN_xrCreateEyeTrackerFB pfnCreateEyeTrackerFB;
@@ -132,10 +143,10 @@ int main()
 	PFN_xrGetFaceExpressionWeightsFB pfnGetFaceExpressionWeights;
 	CHK_XR(xrGetInstanceProcAddr(instance, "xrGetFaceExpressionWeightsFB",reinterpret_cast<PFN_xrVoidFunction*>(&pfnGetFaceExpressionWeights)),"xrGetInstanceProcAddr");
 	
-	//
-	const std::string ipAddress = "127.0.0.1";
-	const int port = 9000;
-	UdpTransmitSocket transmitSocket(IpEndpointName(ipAddress.c_str(), port));
+	//OSC
+	UdpTransmitSocket transmitSocket(IpEndpointName(ip, port));
+
+	std::cout << "OK!\n";
 	//Loop
 	while (1) {
 		float dataEyesClosedAmountL, dataEyesClosedAmountR;
@@ -174,7 +185,8 @@ int main()
 			<< osc::EndMessage
 			<< osc::EndBundle;
 		transmitSocket.Send(p.Data(), p.Size());
-		Sleep(33);
+		//Next
+		Sleep(sleepTime);
 	}
 
 	return 0;

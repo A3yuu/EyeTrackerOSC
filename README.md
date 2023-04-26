@@ -14,13 +14,19 @@ XR_FB_face_tracking
 
 ## Build from source
 
+openxr_loader.lib to lib
+
 Open with VisualStudio
 
 Build
 
+## Option
+
+ip port sleepTime
+
 ## Donate
 
-https://a3s.booth.pm/items/***
+https://a3s.booth.pm/items/4715968
 
 ## Twitter
 
