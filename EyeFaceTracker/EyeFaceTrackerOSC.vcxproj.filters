@@ -21,49 +21,49 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="external\hello_xr\platformplugin_win32.cpp">
-      <Filter>hello_xr</Filter>
-    </ClCompile>
-    <ClCompile Include="external\hello_xr\d3d_common.cpp">
-      <Filter>hello_xr</Filter>
-    </ClCompile>
-    <ClCompile Include="external\hello_xr\graphicsplugin_d3d11.cpp">
-      <Filter>hello_xr</Filter>
-    </ClCompile>
-    <ClCompile Include="external\hello_xr\graphicsplugin_factory.cpp">
-      <Filter>hello_xr</Filter>
-    </ClCompile>
-    <ClCompile Include="external\hello_xr\logger.cpp">
-      <Filter>hello_xr</Filter>
-    </ClCompile>
-    <ClCompile Include="external\hello_xr\pch.cpp">
-      <Filter>hello_xr</Filter>
-    </ClCompile>
-    <ClCompile Include="external\hello_xr\platformplugin_factory.cpp">
-      <Filter>hello_xr</Filter>
-    </ClCompile>
-    <ClCompile Include="external\oscpack_1_1_0\osc\OscReceivedElements.cpp">
+    <ClCompile Include="..\external\oscpack_1_1_0\osc\OscTypes.cpp">
       <Filter>osc</Filter>
     </ClCompile>
-    <ClCompile Include="external\oscpack_1_1_0\osc\OscTypes.cpp">
+    <ClCompile Include="..\external\oscpack_1_1_0\osc\OscPrintReceivedElements.cpp">
       <Filter>osc</Filter>
     </ClCompile>
-    <ClCompile Include="external\oscpack_1_1_0\osc\OscOutboundPacketStream.cpp">
+    <ClCompile Include="..\external\oscpack_1_1_0\osc\OscReceivedElements.cpp">
       <Filter>osc</Filter>
     </ClCompile>
-    <ClCompile Include="external\oscpack_1_1_0\osc\OscPrintReceivedElements.cpp">
+    <ClCompile Include="..\external\oscpack_1_1_0\osc\OscOutboundPacketStream.cpp">
       <Filter>osc</Filter>
     </ClCompile>
-    <ClCompile Include="external\oscpack_1_1_0\ip\IpEndpointName.cpp">
+    <ClCompile Include="..\external\hello_xr\d3d_common.cpp">
+      <Filter>hello_xr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external\hello_xr\graphicsplugin_d3d11.cpp">
+      <Filter>hello_xr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external\hello_xr\graphicsplugin_factory.cpp">
+      <Filter>hello_xr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external\hello_xr\logger.cpp">
+      <Filter>hello_xr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external\hello_xr\pch.cpp">
+      <Filter>hello_xr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external\hello_xr\platformplugin_factory.cpp">
+      <Filter>hello_xr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external\hello_xr\platformplugin_win32.cpp">
+      <Filter>hello_xr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\external\oscpack_1_1_0\ip\win32\UdpSocket.cpp">
       <Filter>osc</Filter>
     </ClCompile>
-    <ClCompile Include="external\oscpack_1_1_0\ip\win32\NetworkingUtils.cpp">
+    <ClCompile Include="..\external\oscpack_1_1_0\ip\win32\NetworkingUtils.cpp">
       <Filter>osc</Filter>
     </ClCompile>
-    <ClCompile Include="external\oscpack_1_1_0\ip\win32\UdpSocket.cpp">
+    <ClCompile Include="..\external\oscpack_1_1_0\ip\IpEndpointName.cpp">
       <Filter>osc</Filter>
     </ClCompile>
   </ItemGroup>
@@ -73,7 +73,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="EyeTrackerOSC.rc">
+    <ResourceCompile Include="EyeFaceTrackerOSC.rc">
       <Filter>リソース ファイル</Filter>
     </ResourceCompile>
   </ItemGroup>
